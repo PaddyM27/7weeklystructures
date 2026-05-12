@@ -298,6 +298,81 @@ body::before {
   display: inline-block;
 }
 
+/* ── THANK YOU STATE ── */
+.thankyou {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  max-width: 480px;
+  padding: 36px 0 0;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.thankyou.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.ty-check {
+  width: 40px;
+  height: 40px;
+  border: 0.5px solid var(--accent);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  color: var(--accent);
+  font-size: 16px;
+}
+
+.ty-headline {
+  font-family: var(--hn);
+  font-size: clamp(30px, 5vw, 44px);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--offwhite);
+  margin-bottom: 20px;
+}
+
+.ty-rule {
+  width: 32px;
+  height: 0.5px;
+  background: var(--accent);
+  opacity: 0.5;
+  margin: 0 auto 20px;
+}
+
+.ty-body {
+  font-family: var(--serif);
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--dim);
+  max-width: 380px;
+  margin-bottom: 10px;
+}
+
+.ty-body strong {
+  color: var(--offwhite);
+  font-style: italic;
+  font-weight: 500;
+}
+
+.ty-note {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 13px;
+  color: var(--dim);
+  opacity: 0.6;
+  margin-top: 20px;
+}
+
 @media (max-width: 480px) {
   .top-slogan { display: none; }
   .top-bar { padding: 0 20px; }
@@ -364,6 +439,20 @@ body::before {
     <p class="privacy">No spam. Unsubscribe any time.</p>
 
   </div>
+
+  <!-- Thank You State (hidden until submit) -->
+  <div class="thankyou" id="thankyou">
+    <div class="ty-check">✓</div>
+    <h2 class="ty-headline">You're in.</h2>
+    <div class="ty-rule"></div>
+    <p class="ty-body">
+      The 7 Weekly Structures Blueprint is on its way to your inbox.<br><br>
+      <strong>Check your email</strong> — it should land in the next few minutes.
+      If you don't see it, check your spam folder and mark it as not spam.
+    </p>
+    <p class="ty-note">Now you have the structure. Use it.</p>
+  </div>
+
 </div>
 
 <div class="bottom-bar">
@@ -371,6 +460,9 @@ body::before {
   <span class="dot"></span>
   <span>Average is a choice.</span>
 </div>
+
+<!-- Hidden iframe so MailChimp processes the form without navigating away -->
+<iframe name="mc-hidden-frame" style="display:none" aria-hidden="true"></iframe>
 
 <script type="text/javascript" src="//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js"></script>
 <script type="text/javascript">
@@ -381,6 +473,34 @@ body::before {
   fnames[1]='FNAME'; ftypes[1]='text';
 }(jQuery));
 var $mcj = jQuery.noConflict(true);
+</script>
+
+<script>
+(function() {
+  var form = document.getElementById('mc-embedded-subscribe-form');
+  var card = document.querySelector('.card');
+  var thankyou = document.getElementById('thankyou');
+
+  // Point form to hidden iframe so page doesn't navigate
+  form.setAttribute('target', 'mc-hidden-frame');
+
+  form.addEventListener('submit', function(e) {
+    var email = document.getElementById('mce-EMAIL').value.trim();
+    if (!email) return;
+
+    // Submit goes to iframe — show thank you immediately
+    setTimeout(function() {
+      card.style.display = 'none';
+      thankyou.style.display = 'flex';
+      // Trigger fade-in on next frame
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          thankyou.classList.add('visible');
+        });
+      });
+    }, 80);
+  });
+})();
 </script>
 
 </body>
