@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>7 Weekly Structures — Meade Performance</title>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+<link href="//cdn-images.mailchimp.com/embedcode/classic-061523.css" rel="stylesheet" type="text/css">
+
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --black:    #080808;
+  --offwhite: #F5F2EC;
+  --accent:   #C8B89A;
+  --dim:      #6A6A66;
+  --rule:     #2A2A28;
+  --mid:      #111110;
+  --hn: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --serif: 'EB Garamond', Georgia, serif;
+}
+
+html, body {
+  min-height: 100vh;
+  background: var(--black);
+  color: var(--offwhite);
+  font-family: var(--serif);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── GRAIN OVERLAY ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  opacity: 0.45;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── LAYOUT ── */
+.page {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 24px 80px;
+}
+
+/* ── TOP RULE ── */
+.top-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  height: 52px;
+  border-bottom: 0.5px solid var(--rule);
+  background: rgba(8,8,8,0.92);
+  backdrop-filter: blur(8px);
+}
+
+.top-brand {
+  font-family: var(--hn);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+
+.top-slogan {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 11px;
+  color: var(--dim);
+  letter-spacing: 0.04em;
+}
+
+/* ── CONTENT CARD ── */
+.card {
+  width: 100%;
+  max-width: 560px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-top: 52px;
+}
+
+/* ── EYEBROW ── */
+.eyebrow {
+  font-family: var(--hn);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 20px;
+}
+
+/* ── HEADLINE ── */
+.headline {
+  font-family: var(--hn);
+  font-size: clamp(38px, 7vw, 58px);
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 0.9;
+  text-transform: uppercase;
+  color: var(--offwhite);
+  margin-bottom: 24px;
+}
+
+.headline em {
+  display: block;
+  font-style: normal;
+  color: var(--accent);
+}
+
+/* ── DIVIDER ── */
+.rule {
+  width: 40px;
+  height: 0.5px;
+  background: var(--accent);
+  margin: 0 auto 24px;
+  opacity: 0.6;
+}
+
+/* ── SUBTEXT ── */
+.subtext {
+  font-family: var(--serif);
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--dim);
+  max-width: 440px;
+  margin-bottom: 10px;
+}
+
+.subtext strong {
+  color: var(--offwhite);
+  font-style: italic;
+  font-weight: 500;
+}
+
+/* ── WHAT YOU GET ── */
+.what-you-get {
+  width: 100%;
+  background: var(--mid);
+  border: 0.5px solid var(--rule);
+  padding: 20px 24px;
+  margin: 28px 0 36px;
+  text-align: left;
+}
+
+.get-label {
+  font-family: var(--hn);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--dim);
+  margin-bottom: 14px;
+}
+
+.get-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.get-list li {
+  font-family: var(--serif);
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--offwhite);
+  padding-left: 16px;
+  position: relative;
+}
+
+.get-list li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-size: 12px;
+}
+
+/* ── FORM WRAPPER ── */
+.form-wrap {
+  width: 100%;
+}
+
+/* ── RESET ALL MAILCHIMP STYLES ── */
+#mc_embed_signup {
+  background: transparent !important;
+  font-family: var(--hn) !important;
+  width: 100% !important;
+  clear: none !important;
+}
+
+#mc_embed_signup .mc-field-group {
+  width: 100% !important;
+  padding-bottom: 0 !important;
+  min-height: 0 !important;
+  margin-bottom: 12px !important;
+}
+
+#mc_embed_signup label {
+  font-family: var(--hn) !important;
+  font-size: 9px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.26em !important;
+  text-transform: uppercase !important;
+  color: var(--dim) !important;
+  display: block !important;
+  margin-bottom: 7px !important;
+}
+
+#mc_embed_signup .asterisk {
+  display: none !important;
+}
+
+#mc_embed_signup .indicates-required {
+  display: none !important;
+}
+
+#mc_embed_signup h2 {
+  display: none !important;
+}
+
+#mc_embed_signup input[type="email"],
+#mc_embed_signup input[type="text"] {
+  background: var(--mid) !important;
+  border: 0.5px solid var(--rule) !important;
+  border-radius: 0 !important;
+  color: var(--offwhite) !important;
+  font-family: var(--serif) !important;
+  font-size: 16px !important;
+  padding: 14px 16px !important;
+  width: 100% !important;
+  outline: none !important;
+  transition: border-color 0.2s ease !important;
+  -webkit-appearance: none !important;
+}
+
+#mc_embed_signup input[type="email"]:focus,
+#mc_embed_signup input[type="text"]:focus {
+  border-color: var(--accent) !important;
+  box-shadow: none !important;
+}
+
+#mc_embed_signup input[type="email"]::placeholder,
+#mc_embed_signup input[type="text"]::placeholder {
+  color: #3A3A38 !important;
+}
+
+/* ── SUBMIT BUTTON ── */
+#mc_embed_signup .clear {
+  margin-top: 8px !important;
+}
+
+#mc_embed_signup input[type="submit"],
+#mc_embed_signup .button {
+  background: var(--accent) !important;
+  color: var(--black) !important;
+  font-family: var(--hn) !important;
+  font-size: 10px !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.24em !important;
+  text-transform: uppercase !important;
+  border: none !important;
+  border-radius: 0 !important;
+  padding: 16px 32px !important;
+  width: 100% !important;
+  cursor: pointer !important;
+  transition: opacity 0.2s ease, transform 0.15s ease !important;
+  -webkit-appearance: none !important;
+}
+
+#mc_embed_signup input[type="submit"]:hover,
+#mc_embed_signup .button:hover {
+  opacity: 0.85 !important;
+  transform: translateY(-1px) !important;
+}
+
+#mc_embed_signup input[type="submit"]:active,
+#mc_embed_signup .button:active {
+  transform: translateY(0px) !important;
+  opacity: 1 !important;
+}
+
+/* Error/success messages */
+#mc_embed_signup #mce-error-response,
+#mc_embed_signup #mce-success-response {
+  font-family: var(--serif) !important;
+  font-size: 14px !important;
+  padding: 10px 0 !important;
+  margin: 8px 0 0 !important;
+  background: transparent !important;
+}
+
+#mc_embed_signup #mce-error-response {
+  color: #C8896A !important;
+}
+
+#mc_embed_signup #mce-success-response {
+  color: var(--accent) !important;
+}
+
+/* ── PRIVACY NOTE ── */
+.privacy {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 12px;
+  color: var(--dim);
+  margin-top: 16px;
+  opacity: 0.7;
+}
+
+/* ── BOTTOM BAR ── */
+.bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 44px;
+  border-top: 0.5px solid var(--rule);
+  background: rgba(8,8,8,0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.bottom-bar span {
+  font-family: var(--hn);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+
+.bottom-bar .dot {
+  width: 2px;
+  height: 2px;
+  background: var(--rule);
+  border-radius: 50%;
+  letter-spacing: 0;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 480px) {
+  .top-bar { padding: 0 20px; }
+  .top-slogan { display: none; }
+  .card { padding: 0; }
+  .what-you-get { padding: 16px 18px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Top Bar -->
+<div class="top-bar">
+  <span class="top-brand">Meade Performance</span>
+  <span class="top-slogan">Average is a choice.</span>
+</div>
+
+<!-- Main Page -->
+<div class="page">
+  <div class="card">
+
+    <div class="eyebrow">Free Download</div>
+
+    <h1 class="headline">
+      7 Weekly<br>
+      <em>Structures</em><br>
+      Blueprint
+    </h1>
+
+    <div class="rule"></div>
+
+    <p class="subtext">
+      Done-for-you training blueprints for every week in your season.<br>
+      <strong>The right structure. The right week. Every time.</strong>
+    </p>
+
+    <div class="what-you-get">
+      <div class="get-label">What's inside</div>
+      <ul class="get-list">
+        <li>Off-Season Foundation Block — build without burning out</li>
+        <li>Strength & Power Block — peak into pre-season</li>
+        <li>Standard Single Game Week — maintain and arrive fresh</li>
+        <li>Double Fixture Week — two games, one body, no excuses</li>
+        <li>Recovery / Deload Week — train less, absorb more</li>
+        <li>Pre-Competition Week — sharpen, don't fatigue</li>
+        <li>Back-to-Back Competition — protect Game 2</li>
+      </ul>
+    </div>
+
+    <!-- MailChimp Form -->
+    <div class="form-wrap">
+      <div id="mc_embed_shell">
+        <div id="mc_embed_signup">
+          <form action="https://app.us22.list-manage.com/subscribe/post?u=020c14cbcdd6f0f323ec3e923&amp;id=3e0a8b521f&amp;f_id=0073c2e1f0" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank">
+            <div id="mc_embed_signup_scroll">
+              <div class="indicates-required"><span class="asterisk">*</span> indicates required</div>
+              <div class="mc-field-group">
+                <label for="mce-FNAME">First Name</label>
+                <input type="text" name="FNAME" class="text" id="mce-FNAME" value="" placeholder="Your first name">
+              </div>
+              <div class="mc-field-group">
+                <label for="mce-EMAIL">Email Address</label>
+                <input type="email" name="EMAIL" class="required email" id="mce-EMAIL" required="" value="" placeholder="Your email address">
+              </div>
+              <div hidden=""><input type="hidden" name="tags" value="2174"></div>
+              <div id="mce-responses" class="clear">
+                <div class="response" id="mce-error-response" style="display: none;"></div>
+                <div class="response" id="mce-success-response" style="display: none;"></div>
+              </div>
+              <div aria-hidden="true" style="position: absolute; left: -5000px;">
+                <input type="text" name="b_020c14cbcdd6f0f323ec3e923_3e0a8b521f" tabindex="-1" value="">
+              </div>
+              <div class="clear">
+                <input type="submit" name="subscribe" id="mc-embedded-subscribe" class="button" value="Send Me the Blueprint">
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <p class="privacy">No spam. Just structured training. Unsubscribe any time.</p>
+
+  </div>
+</div>
+
+<!-- Bottom Bar -->
+<div class="bottom-bar">
+  <span>meadeperformance.com</span>
+  <span class="dot"></span>
+  <span>Average is a choice.</span>
+</div>
+
+<script type="text/javascript" src="//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js"></script>
+<script type="text/javascript">
+(function($) {
+  window.fnames = new Array();
+  window.ftypes = new Array();
+  fnames[0]='EMAIL'; ftypes[0]='email';
+  fnames[1]='FNAME'; ftypes[1]='text';
+}(jQuery));
+var $mcj = jQuery.noConflict(true);
+</script>
+
+</body>
+</html>
