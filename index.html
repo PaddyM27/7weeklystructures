@@ -392,6 +392,71 @@ body::before {
   margin-top: 20px;
 }
 
+.ty-guide-btn {
+  display: inline-block;
+  margin-top: 28px;
+  padding: 14px 32px;
+  background: var(--accent);
+  color: var(--black);
+  font-family: var(--hn);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.ty-guide-btn:hover {
+  opacity: 0.82;
+  transform: translateY(-1px);
+}
+.ty-guide-btn:active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.guide-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(8,8,8,0.94);
+  z-index: 1000;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.guide-modal.open {
+  display: flex;
+}
+.guide-modal-close {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  background: none;
+  border: 0.5px solid var(--accent);
+  color: var(--accent);
+  font-size: 18px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s ease;
+  line-height: 1;
+}
+.guide-modal-close:hover { opacity: 0.7; }
+.guide-modal-frame {
+  width: 100%;
+  max-width: 860px;
+  height: 85vh;
+  border: none;
+  background: #fff;
+}
+
 @media (max-width: 480px) {
   .top-slogan { display: none; }
   .top-bar { padding: 0 20px; }
@@ -469,7 +534,14 @@ body::before {
       <strong>Check your email</strong> — it should land in the next few minutes.
       If you don't see it, check your spam folder and mark it as not spam.
     </p>
+    <a href="#" class="ty-guide-btn" id="ty-guide-btn">Get Guide Now</a>
     <p class="ty-note">Now you have the structure. Use it.</p>
+  </div>
+
+  <!-- PDF Guide Modal -->
+  <div class="guide-modal" id="guide-modal" role="dialog" aria-modal="true" aria-label="7 Weekly Structures Guide">
+    <button class="guide-modal-close" id="guide-modal-close" aria-label="Close">&#215;</button>
+    <iframe class="guide-modal-frame" id="guide-modal-frame" src="" title="7 Weekly Structures Guide"></iframe>
   </div>
 
 </div>
@@ -520,6 +592,39 @@ var $mcj = jQuery.noConflict(true);
       });
     }, 80);
   });
+})();
+</script>
+
+<script>
+(function() {
+  var btn = document.getElementById('ty-guide-btn');
+  var modal = document.getElementById('guide-modal');
+  var closeBtn = document.getElementById('guide-modal-close');
+  var frame = document.getElementById('guide-modal-frame');
+  var pdfSrc = 'Meade Performance 7 Weekly Structures Guide.pdf';
+
+  btn.addEventListener('click', function(e) {
+    e.preventDefault();
+    if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+      window.open(pdfSrc, '_blank');
+    } else {
+      if (!frame.getAttribute('data-loaded')) {
+        frame.src = pdfSrc;
+        frame.setAttribute('data-loaded', '1');
+      }
+      modal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+  });
+
+  function closeModal() {
+    modal.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  closeBtn.addEventListener('click', closeModal);
+  modal.addEventListener('click', function(e) { if (e.target === modal) closeModal(); });
+  document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeModal(); });
 })();
 </script>
 
